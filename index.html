@@ -19,14 +19,13 @@
             margin: 0;
         }
         </style>
-        <title>MAPA</title>
+        <title></title>
     </head>
     <body>
         <div id="map">
         </div>
         <script src="js/qgis2web_expressions.js"></script>
-        <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
-		<script src="js/L.Control.Locate.min.js"></script>
+        <script src="js/leaflet.js"></script><script src="js/L.Control.Locate.min.js"></script>
         <script src="js/multi-style-layer.js"></script>
         <script src="js/leaflet.rotatedMarker.js"></script>
         <script src="js/leaflet.pattern.js"></script>
@@ -79,6 +78,7 @@
             if (bounds_group.getLayers().length) {
                 map.fitBounds(bounds_group.getBounds());
             }
+            map.setMaxBounds(map.getBounds());
         }
         var layer_OpenStreetMap_0 = L.tileLayer('http://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             opacity: 1.0,
@@ -139,7 +139,7 @@
                 weight: 1.0,
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(29,29,0,1.0)',
+                fillColor: 'rgba(19,29,225,1.0)',
                 interactive: true,
             }
         }
@@ -195,6 +195,8 @@
         .className += ' fa fa-search';
         document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
         .title += 'Search for a place';
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'<img src="legend/parqueaderos_1.png" /> parqueaderos': layer_parqueaderos_1,"OpenStreetMap": layer_OpenStreetMap_0,}).addTo(map);
         setBounds();
         map.addControl(new L.Control.Search({
             layer: layer_parqueaderos_1,
