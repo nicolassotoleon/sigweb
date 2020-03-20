@@ -6,7 +6,9 @@
         <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
         <meta name="mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-capable" content="yes">
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css">
+         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+		integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+		crossorigin=""/>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-locatecontrol/0.70.0/L.Control.Locate.min.css">
         <link rel="stylesheet" href="css/qgis2web.css">
 		<link rel="stylesheet" href="css/fontawesome-all.min.css">
@@ -26,7 +28,9 @@
         <div id="map">
         </div>
         <script src="js/qgis2web_expressions.js"></script>
-        <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+         <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+		integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+		crossorigin=""></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-locatecontrol/0.70.0/L.Control.Locate.min.js"></script>
         <script src="js/multi-style-layer.js"></script>
         <script src="js/leaflet.rotatedMarker.js"></script>
@@ -59,6 +63,25 @@
         var map = L.map('map', {
             zoomControl:true, maxZoom:28, minZoom:1
         })
+		
+		/*MARCADOR EN LA CALLE 16 CON CARRERA 86*/
+		var marker = L.marker([3.37963, -76.52881]).addTo(map);
+		
+		/*CIRCULO EN CARRERA 100 CON CALLE 13*/
+		var circle = L.circle([3.37121, -76.53714], {
+			color: 'green',
+			fillColor: '#19544B',
+			fillOpacity: 0.5,
+			radius: 250
+		}).addTo(map);
+		
+		/*POLIGONO EN CALLE 16 CON CARRERA 105*/
+		var polygon = L.polygon([
+			[3.36408, -76.53313],
+			[3.36487, -76.53134],
+			[3.36249, -76.53150]
+		]).addTo(map);
+		
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         L.control.locate({locateOptions: {maxZoom: 19}}).addTo(map);
@@ -184,7 +207,9 @@
         document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
         .title += 'Search for a place';
         var baseMaps = {};
-        L.control.layers(baseMaps,{'<img src="legend/parqueaderos_1.png" /> parqueaderos': layer_parqueaderos_1,"OpenStreetMap": layer_OpenStreetMap_0,}).addTo(map);
+        L.control.layers(baseMaps,{'<img src="legend/parqueaderos_1.png" /> parqueaderos': layer_parqueaderos_1, "OpenStreetMap": layer_OpenStreetMap_0,
+		'<img src="legend/circulo.png" /> circulo creado': circle, '<img src="legend/poligono.png" /> poligono creado': polygon,
+		'<img src="legend/marca.png" /> marca creada': marker}).addTo(map);
         setBounds();
         map.addControl(new L.Control.Search({
             layer: layer_parqueaderos_1,
@@ -193,6 +218,8 @@
             propertyName: 'id_pq'}));
         document.getElementsByClassName('search-button')[0].className +=
          ' fa fa-binoculars';
+		 
+		
         </script>
     </body>
 </html>
