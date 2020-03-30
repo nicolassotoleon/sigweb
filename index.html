@@ -16,6 +16,7 @@
         <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
         <link rel="stylesheet" href="css/MarkerCluster.css" />
 		<link rel="stylesheet" href="css/lib/MarkerCluster.Default.css" />
+		
 		<style>
         html, body, #map {
             width: 100%;
@@ -23,19 +24,25 @@
             padding: 0;
             margin: 0;
         }
+		
+		
         </style>
         <title></title>
     </head>
     <body>
         <div id="map">
         </div>
-		<script src="js/leaflet.markercluster-src.js"></script>
-		<script src="https://github.com/joker-x/Leaflet.geoCSV/blob/master/leaflet.geocsv-src.js"></script>
-		<script type="text/javascript" src="data/fotomultas.js"></script>
-        <script src="js/qgis2web_expressions.js"></script>
-        <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+		<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
 		integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
 		crossorigin=""></script>
+		<script src="js/leaflet.browser.print.js"></script>
+		<script src="js/leaflet.browser.print.utils.js"></script>
+        <script src="js/leaflet.browser.print.sizes.js"></script>
+		<script src="js/leaflet.markercluster-src.js"></script>
+		<script src="js/leaflet.geocsv-src.js"></script>
+		<script src="js/jquery.js"></script>
+		<script type="text/javascript" src="data/fotomultas.js"></script>
+        <script src="js/qgis2web_expressions.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-locatecontrol/0.70.0/L.Control.Locate.min.js"></script>
         <script src="js/multi-style-layer.js"></script>
         <script src="js/leaflet.rotatedMarker.js"></script>
@@ -49,6 +56,8 @@
         <script src="https://github.com/stefanocudini/leaflet-search/blob/master/src/leaflet-search.js"></script>
         <script src="data/parqueaderos_1.js"></script>
         <script>
+
+	
 
         var highlightLayer;
         function highlightFeature(e) {
@@ -70,8 +79,10 @@
             zoomControl:true, maxZoom:28, minZoom:1
         })
 		
+
+		
 		/*AGREGAR CSV*/
-		/*var bankias = L.geoCsv(null, {
+		var bankias = L.geoCsv(null, {
 			onEachFeature: function (feature, layer) {
 				var popup = '';
 				for (var clave in feature.properties) {
@@ -83,7 +94,7 @@
 			pointToLayer: function (feature, latlng) {
 				return L.marker(latlng, {
 					icon:L.icon({
-						iconUrl: 'marker-icon.png',
+						iconUrl: 'marcador-bankia.png',
 						shadowUrl: 'marker-shadow.png',
 						iconSize: [25,41],
 						shadowSize:   [41, 41],
@@ -93,35 +104,38 @@
 			},
 			firstLineTitles: true
 		});
-		
 
 		$.ajax ({
 			type:'GET',
 			dataType:'text',
-			url:'ejemplo.csv',
+			url:'bankias1.csv',
 			error: function() {
 			alert('No se pudieron cargar los datos');
-		},
-		success: function(csv) {
-			var cluster = new L.MarkerClusterGroup();
-			bankias.addData(csv);
-			cluster.addLayer(bankias);
-			mapa.addLayer(cluster);
-			mapa.fitBounds(cluster.getBounds());
-		},
-		complete: function() {
-			$('#cargando').delay(100).fadeOut('slow');
+			},
+			success: function(csv) {
+				var cluster = new L.MarkerClusterGroup();
+				bankias.addData(csv);
+				cluster.addLayer(bankias);
+				map.addLayer(cluster);
+				map.fitBounds(cluster.getBounds());
+			},
+			complete: function() {
+				$('#cargando').delay(500).fadeOut('slow');
 			}
 		});
-		
+
+
 		$('#localizame').click(function(e) {
-		mapa.locate();
-		$('#localizame').text('Localizando...');
-		mapa.on('locationfound', function(e) { 
-		mapa.setView(e.latlng, 15);
-		$('#localizame').text('Bankias cercanos');
+			map.locate();
+			$('#localizame').text('Localizando...');
+			map.on('locationfound', function(e) { 
+				map.setView(e.latlng, 15);
+				$('#localizame').text('Bankias cercanos');
+			});
 		});
-		});
+
+//});
+		
 		
 		/*MARCADOR EN LA CALLE 16 CON CARRERA 86*/
 		var marker = L.marker([3.37963, -76.52881]).addTo(map);
@@ -141,6 +155,8 @@
 			[3.36249, -76.53150]
 		]).addTo(map);
 		
+
+
 		/*WMS COMUNAS*/
 		var wmsLayer = L.tileLayer.wms('http://ws-idesc.cali.gov.co:8081/geoserver/wms?service=WMS&version=1.1.0', {layers:'idesc:mc_comunas'}).addTo(map);
 		
@@ -154,9 +170,34 @@
 
 		var fotom = geojson = L.geoJson(fotomultas, {/*icon: greenIcon ,*/onEachFeature: popup}) 
 		.addTo(map);
-				
 		
-		
+					/*IMPRIMIR*/
+		var customActionToPrint = function(context, mode) {
+				return function() {
+					window.alert("DIBUJA LA ZONA QUE QUIERES IMPRIMIR!");
+					context._printCustom(mode);
+				}
+			}
+
+            L.control.browserPrint({
+                printLayer: L.tileLayer('http://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                            	attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+                            	subdomains: 'abcd',
+                            	minZoom: 1,
+                            	maxZoom: 16,
+                            	ext: 'png'
+                            }),
+                closePopupsOnPrint: false,
+				printModes: [
+					L.control.browserPrint.mode.landscape("VISTA TABLOIDE", "Tabloid"),
+					L.control.browserPrint.mode("ALERTA MUCHACHO", "ESPECIFICADA POR EL USUARIO", "A6", customActionToPrint, false),
+					L.control.browserPrint.mode.landscape(),
+					"PORTrait",
+					L.control.browserPrint.mode.auto("AUTOMATICO", "B4"),
+					L.control.browserPrint.mode.custom("SELECCIONA LA ZONA", "B5")
+				]
+
+            }).addTo(map);
 		//----------------------------------------------------------------------------
 		
         var hash = new L.Hash(map);
@@ -214,6 +255,8 @@
                 </table>';
             layer.bindPopup(popupContent, {maxHeight: 400});
         }
+		
+		
 
         function style_parqueaderos_1_0() {
             return {
@@ -283,10 +326,12 @@
         .className += ' fa fa-search';
         document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
         .title += 'Search for a place';
+		
         var baseMaps = {};
-        L.control.layers(baseMaps,{'<img src="legend/parqueaderos_1.png" /> parqueaderos': layer_parqueaderos_1, "OpenStreetMap": layer_OpenStreetMap_0,
+        L.control.layers(baseMaps,{'<img src="legend/parqueaderos_1.png" /> parqueaderos': layer_parqueaderos_1,
 		'<img src="legend/circulo.png" /> circulo creado': circle, '<img src="legend/poligono.png" /> poligono creado': polygon,
-		'<img src="legend/marca.png" /> marca creada': marker, '<img src="legend/comunas.png" /> comunas': wmsLayer, 
+		'<img src="legend/marca.png" /> marca creada': marker, '<img src="legend/comunas.png" /> comunas': wmsLayer,  "OpenStreetMap": layer_OpenStreetMap_0,
+		'<img src="legend/csv.png" /> csv agregado': bankias,
 		'<img src="legend/fotomultas.png" /> fotomultas': fotom}).addTo(map);
         setBounds();
         map.addControl(new L.Control.Search({
@@ -297,11 +342,13 @@
         document.getElementsByClassName('search-button')[0].className +=
          ' fa fa-binoculars';
 		 
+		 
 		
 		 
 		 
 		
         </script>
-	
+
+
     </body>
 </html>
