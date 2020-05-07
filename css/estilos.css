@@ -1,0 +1,74 @@
+*{ 
+	margin:0px;
+	padding:0px;
+}
+
+a{
+	color:white;
+	font-family:impact;
+	font-size:120%;
+	text-align:center;
+	
+}
+
+body{
+    background-image: url(https://images5.alphacoders.com/456/456536.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+div#cabecera{
+	text-align:center;
+	margin-top:25px;
+	margin-left:25px;
+	margin-right:25px;
+	width:complect;
+	height:75px;
+	background:blue;
+}
+
+
+
+div#ingreso{
+	font-size:20;
+	margin-top:100px;
+	text-align:center;
+	float:center;
+}
+
+
+div#registro{
+	color:white;
+	margin-top:10px;
+	text-align:center;
+	float:center;
+}
+
+div#seleccion{
+	font-size:20;
+	color:white;
+	float:center;
+}
+
+div#distancia{
+	font-size:20;
+	color:white;
+	float:right;
+}
+
+div#mapa{
+	margin-top:25px;
+	margin-left:15px;
+	margin-right:25px;
+	float:right
+}
+
+div#ingreso_usuarios{
+	color:white;
+	margin-top:10px;
+	text-align:center;
+	float:center;
+}
+
+
