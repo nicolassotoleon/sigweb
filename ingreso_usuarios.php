@@ -44,7 +44,7 @@ if(isset($_POST['login'])){
 			if($row["contraseña_u"] == $lcontraseña){ 
 				$_SESSION['nombre_u'] = $row['nombre_u']; 
 				   echo '<script language="javascript">'; 
-				   echo 'location.href = "index.php";'; 
+				   echo 'location.href = "proyecto.php";'; 
 				   echo '</script>';			   
 			}else{
 			   echo 'Contraseña Incorrecta'; // 

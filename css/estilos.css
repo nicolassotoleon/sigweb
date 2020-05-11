@@ -4,7 +4,7 @@
 }
 
 a{
-	color:white;
+	color:red;
 	font-family:impact;
 	font-size:120%;
 	text-align:center;
@@ -12,7 +12,7 @@ a{
 }
 
 body{
-    background-image: url(https://images5.alphacoders.com/456/456536.jpg);
+    background-image: url(https://images7.alphacoders.com/107/1074159.jpg);
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
@@ -24,8 +24,7 @@ div#cabecera{
 	margin-left:25px;
 	margin-right:25px;
 	width:complect;
-	height:75px;
-	background:blue;
+	background:red;
 }
 
 
@@ -51,18 +50,6 @@ div#seleccion{
 	float:center;
 }
 
-div#distancia{
-	font-size:20;
-	color:white;
-	float:right;
-}
-
-div#mapa{
-	margin-top:25px;
-	margin-left:15px;
-	margin-right:25px;
-	float:right
-}
 
 div#ingreso_usuarios{
 	color:white;
@@ -71,4 +58,16 @@ div#ingreso_usuarios{
 	float:center;
 }
 
+p{
+	color:black;
+	font-family:impact;
+	font-size:100%;
+	text-align:center;
+	
+}
 
+div#cerrar_seccion{
+	text-align:center;
+	width:complect;
+	background:red;
+}	
