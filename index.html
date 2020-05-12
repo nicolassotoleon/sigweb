@@ -1,140 +1,176 @@
-
-<!DOCTYPE html>
-
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<link rel="shortcut icon" type="image/x-icon" href="imagenes/icono.jpg">
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css"><link rel="stylesheet" href="css/L.Control.Locate.min.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/leaflet-measure.css">
+		<link rel="stylesheet" href="lib/leaflet-groupedlayercontrol/dist/leaflet.groupedlayercontrol.min.css" />
 	
-    <title>ACTIVE PARKING</title>
-	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" />
-   <!-- Make sure you put this AFTER Leaflet's CSS -->
-	<script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"></script>
-   
-   <!--MENU DE CAPAS-->
-    <link rel="stylesheet" href="lib/leaflet-groupedlayercontrol/dist/leaflet.groupedlayercontrol.min.css" />
-	<script src="lib/leaflet-groupedlayercontrol/dist/leaflet.groupedlayercontrol.min.js"></script>
-   
-   <!--botones-->
-	<link rel="stylesheet" href="lib/leaflet-easybutton/easy-button.css" />
-	<script src="lib/leaflet-easybutton/easy-button.js"></script>   
-
-    <!-- Dependency to Leaflet Draw -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.3.2/leaflet.draw.css"/>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.3.2/leaflet.draw.js"></script>
-	
-    <!-- Files from current project -->
-    <link rel="stylesheet" href="lib/leaflet.measurecontrol.css" />
-    <script src="lib/leaflet.measurecontrol.js"></script>
-
-
-	<style>
-        html, body, #mapid {
+        <style>
+        html, body, #map {
             width: 100%;
             height: 100%;
             padding: 0;
             margin: 0;
 		}
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script><script src="js/L.Control.Locate.min.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-measure.js"></script>
+		<script src="lib/leaflet-groupedlayercontrol/dist/leaflet.groupedlayercontrol.min.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[3.103335774177818,-77.03832093904326],[3.786969568871638,-75.9982775098055]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        L.control.locate({locateOptions: {maxZoom: 19}}).addTo(map);
+        var measureControl = new L.Control.Measure({
+            position: 'topleft',
+            primaryLengthUnit: 'meters',
+            secondaryLengthUnit: 'kilometers',
+            primaryAreaUnit: 'sqmeters',
+            secondaryAreaUnit: 'hectares'
+        });
+        measureControl.addTo(map);
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .innerHTML = '';
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .className += ' fas fa-ruler';
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        var layer_OpenStreetMap_0 = L.tileLayer('http://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 19
+        });
+        layer_OpenStreetMap_0;
+        map.addLayer(layer_OpenStreetMap_0);
+        setBounds();
 		
-		.leaflet-control-draw-measure {
-			background-image: url(images/measure-control.png);
+		
+		/*WMS PARQUEADEROS*/
+		var wmsLayer1 = L.tileLayer.wms('http://www.appmap.gis-cdn.net/geoserver/proyecto_sig/wms?', {
+		layers: 'proyecto_sig:parqueaderos_motos',
+		attribution: 'parqueaderos_motos',
+		format: 'image/png',
+		transparent: true,
+		});
+		wmsLayer1.addTo(map);
+		
+		/*POPUP*/
+		/*var source3 = L.WMS.source("http://www.appmap.gis-cdn.net/geoserver/proyecto_sig/wms?", {
+			opacity: 0.1,
+		});
+		source3.getLayer("parqueaderos_motos").addTo(mymap);*/
+
+		var wmsLayer2 = L.tileLayer.wms('http://www.appmap.gis-cdn.net/geoserver/proyecto_sig/wms?', {
+		layers: 'proyecto_sig:parqueaderos_carros',
+		attribution: 'parqueaderos_carros',
+		format: 'image/png',
+		transparent: true,
+		});
+		wmsLayer2.addTo(map);
+		
+		/*POPUP*/
+		/*var source1 = L.WMS.source("http://localhost:8080/geoserver/proyecto_sig/wms?", {
+			opacity: 0.1,
+		});
+		source1.getLayer("parqueaderos_carros").addTo(mymap);*/
+		
+		var wmsLayer3 = L.tileLayer.wms('http://www.appmap.gis-cdn.net/geoserver/proyecto_sig/wms?', {
+		layers: 'proyecto_sig:parqueaderos_camion1',
+		attribution: 'parqueaderos_camion1',
+		format: 'image/png',
+		transparent: true,
+		});
+		wmsLayer3.addTo(map);
+		
+		/*POPUP*/
+		/*var source2 = L.WMS.source("http://localhost:8080/geoserver/proyecto_sig/wms?", {
+			opacity: 0.1,
+		});
+		source2.getLayer("parqueaderos_camion1").addTo(mymap);*/
+		
+		var wmsLayer4 = L.tileLayer.wms('http://www.appmap.gis-cdn.net/geoserver/proyecto_sig/wms?', {
+		layers: 'proyecto_sig:parqueaderos_camion2',
+		attribution: 'parqueaderos_camion2',
+		format: 'image/png',
+		transparent: true,
+		});
+		wmsLayer4.addTo(map);
+
+
+		/*CONTROL DE CAPAS*/
+		var groupedOverlays = {
+			"Motos": wmsLayer1,
+			"carros": wmsLayer2,
+			"camion1": wmsLayer3,
+			"camion2": wmsLayer4
+		};
+		L.control.groupedLayers(groupedOverlays).addTo(map);
+		
+		
+				/*UBICACION SIN PEDIRLA*/
+		function loadLocation () {
+			//inicializamos la funcion y definimos  el tiempo maximo ,las funciones de error y exito.
+			navigator.geolocation.getCurrentPosition(viewMap,ViewError,{timeout:1000});
 		}
 		
-    </style>
-   
-</head>
-<body onload="loadLocation();">
+		
+		
+		//HACE PARTE DE LA UBICACION, TAMBIEN SE ANEXA LA UBICACION DEL USUARIO CON UNA MARCA SOBRE LA CARTOGRAFIA MAS UN RADIO DE BUSQUEDA QUE ES UN CIRCULO
+		function viewMap (position) { 
+			var lon = position.coords.longitude;	//guardamos la longitud
+			var lat = position.coords.latitude;		//guardamos la latitud
+			/*UBICACION DE USUARIO*/
+			var marker = L.marker([lat, lon]).addTo(map);
+			marker.bindPopup("¡Aqui estas!");
+			/*RADIO DE BUSQUEDA*/
+			var elem = document.getElementById('rango')
+			var circle = L.circle([lat, lon], {
+					color: 'red',
+					fillColor: 'blue',
+					fillOpacity: 0.3,
+					radius: 1500
+				}).addTo(map);
+			
+			
+			var link = "http://maps.google.com/?ll="+lat+","+lon+"&z=14";
+			document.getElementById("long").innerHTML = "Longitud: "+lon;
+			document.getElementById("latitud").innerHTML = "Latitud: "+lat;
 
+			document.getElementById("link").href = link;
+		}
 
-<div id="mapid"></div>
+		function ViewError (error) {
+		alert(error.code);
+		}
 
-<body>
 	
 
-<script>
-	var mymap = L.map('mapid').setView([3.40, -76.5], 11.4);
-	var OpenStreetMap = L.tileLayer('http://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-	}).addTo(mymap);
-	
-	//CONTROL PARA MEDIR SOBRE LA CARTOGRAFIA"
-	L.Control.measureControl().addTo(mymap);		
-	
-	/*WMS PARQUEADEROS*/
-	var wmsLayer1 = L.tileLayer.wms('http://www.appmap.gis-cdn.net/geoserver/proyecto_sig/wms?', {
-	layers: 'proyecto_sig:parqueaderos_motos',
-	attribution: 'parqueaderos_motos',
-	format: 'image/png',
-	transparent: true,
-	});
-	wmsLayer1.addTo(mymap);
-	
-	/*POPUP*/
-	/*var source3 = L.WMS.source("http://www.appmap.gis-cdn.net/geoserver/proyecto_sig/wms?", {
-   		opacity: 0.1,
-	});
-	source3.getLayer("parqueaderos_motos").addTo(mymap);*/
-
-	var wmsLayer2 = L.tileLayer.wms('http://www.appmap.gis-cdn.net/geoserver/proyecto_sig/wms?', {
-	layers: 'proyecto_sig:parqueaderos_carros',
-	attribution: 'parqueaderos_carros',
-	format: 'image/png',
-	transparent: true,
-	});
-	wmsLayer2.addTo(mymap);
-	
-	/*POPUP*/
-	/*var source1 = L.WMS.source("http://localhost:8080/geoserver/proyecto_sig/wms?", {
-   		opacity: 0.1,
-	});
-	source1.getLayer("parqueaderos_carros").addTo(mymap);*/
-	
-	var wmsLayer3 = L.tileLayer.wms('http://www.appmap.gis-cdn.net/geoserver/proyecto_sig/wms?', {
-	layers: 'proyecto_sig:parqueaderos_camion1',
-	attribution: 'parqueaderos_camion1',
-	format: 'image/png',
-	transparent: true,
-	});
-	wmsLayer3.addTo(mymap);
-	
-	/*POPUP*/
-	/*var source2 = L.WMS.source("http://localhost:8080/geoserver/proyecto_sig/wms?", {
-		opacity: 0.1,
-	});
-	source2.getLayer("parqueaderos_camion1").addTo(mymap);*/
-	
-	var wmsLayer4 = L.tileLayer.wms('http://www.appmap.gis-cdn.net/geoserver/proyecto_sig/wms?', {
-	layers: 'proyecto_sig:parqueaderos_camion2',
-	attribution: 'parqueaderos_camion2',
-	format: 'image/png',
-	transparent: true,
-	});
-	wmsLayer4.addTo(mymap);
-
-
-	/*CONTROL DE CAPAS*/
-	var groupedOverlays = {
-		"Motos": wmsLayer1,
-		"carros": wmsLayer2,
-		"camion1": wmsLayer3,
-		"camion2": wmsLayer4
-	};
-	L.control.groupedLayers(groupedOverlays).addTo(mymap);
-
-
-	//BOTON PARA ABRIR TUTORIAL
-	L.easyButton('<img src="img/Un dedo Filled-50.png" width=25 >', function(btn, map)
-	{
-		window.location="https://www.youtube.com/watch?v=1w7OgIMMRc4"
-	}).addTo( mymap );	
-	
-
-
-</script>
-
-    <script scr="js/jquery-3.4.1.min.js"></script>
-    <script scr="js/main.js" ></script>
-</body>
-</html> 
+		
+        </script>
+    </body>
+</html>
