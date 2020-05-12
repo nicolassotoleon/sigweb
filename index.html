@@ -123,43 +123,7 @@
 	};
 	L.control.groupedLayers(groupedOverlays).addTo(mymap);
 
-	/*UBICACION SIN PEDIRLA*/
-	function loadLocation () {
-		//inicializamos la funcion y definimos  el tiempo maximo ,las funciones de error y exito.
-		navigator.geolocation.getCurrentPosition(viewMap,ViewError,{timeout:1000});
-	}
-	
-	
-	
-	//HACE PARTE DE LA UBICACION, TAMBIEN SE ANEXA LA UBICACION DEL USUARIO CON UNA MARCA SOBRE LA CARTOGRAFIA MAS UN RADIO DE BUSQUEDA QUE ES UN CIRCULO
-	function viewMap (position) { 
-		var lon = position.coords.longitude;	//guardamos la longitud
-		var lat = position.coords.latitude;		//guardamos la latitud
-		/*UBICACION DE USUARIO*/
-		var marker = L.marker([lat, lon]).addTo(mymap);
-		marker.bindPopup("¡Aqui estas!");
-		/*RADIO DE BUSQUEDA*/
-		var elem = document.getElementById('rango')
-		var circle = L.circle([lat, lon], {
-				color: 'red',
-				fillColor: 'blue',
-				fillOpacity: 0.3,
-				radius: 1500
-			}).addTo(mymap);
-		
-		
-		var link = "http://maps.google.com/?ll="+lat+","+lon+"&z=14";
-		document.getElementById("long").innerHTML = "Longitud: "+lon;
-		document.getElementById("latitud").innerHTML = "Latitud: "+lat;
 
-		document.getElementById("link").href = link;
-	}
-
-	function ViewError (error) {
-	alert(error.code);
-	}
-
-	
 	//BOTON PARA ABRIR TUTORIAL
 	L.easyButton('<img src="img/Un dedo Filled-50.png" width=25 >', function(btn, map)
 	{
