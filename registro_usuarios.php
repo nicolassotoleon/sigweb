@@ -31,7 +31,8 @@ $dbcon = conexion(); // se crea una variable con la función definida anteriorme
 			<input type="text" placeholder="correo" name="R_correo"><br><br>
 			<label for="telefono">Ingrese su numero telefonico:</label><br>
 			<input type="text" placeholder="telefono" name="R_telefono"><br><br>
-			<input name="registro" type="submit" value="Guardar informacion">
+			<input name="registro" type="submit" value="Guardar informacion"><br><br>
+			<a input href="ingreso_usuarios.php" class="button" >Regresar</a><br><br>
 			</form>
 		</div>
 		</form>

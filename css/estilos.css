@@ -71,3 +71,33 @@ div#cerrar_seccion{
 	width:complect;
 	background:red;
 }	
+
+div#nicolas{
+	width:50%;
+	text-align:center;
+	margin-top:25px;
+	margin-left:25px;
+	margin-right:25px;
+	width:complect;
+	background:red;
+	float:left;
+}
+
+div#adrian{
+	width:50%;
+	text-align:center;
+	margin-top:25px;
+	margin-left:25px;
+	margin-right:25px;
+	width:complect;
+	background:red;
+	float:right;
+}
+
+div#foto1{
+	width:20%;
+	float:center;
+	margin-top:25px;
+	margin-left:25px;
+	margin-right:25px;
+}

@@ -23,13 +23,15 @@ $dbcon = conexion();
 session_start();
 echo '	<form method="post" action="ingreso_usuarios.php">
 			<div id="registro">
-			<label for="usuario">Ingrese su usuario:</label>
+			<label for="usuario">👤 Ingrese su usuario:</label>
 			<input type="text" placeholder="usuario" name="lusuario"><br><br>
-			<label for="contraseña">Ingrese su contraseña:</label>
-			<input type="text" placeholder="contraseña" name="lcontraseña"><br><br>
+			<label for="contraseña">🔐 Ingrese su contraseña:</label>
+			<input type="password" placeholder="contraseña" name="lcontraseña"><br><br>
 			<input name=login type="submit" value="Ingresar"><br><br>
 			<a input href="registro_usuarios.php" class="button" >Registrate</a><br><br>
-			<a input href="ingreso_operario.php" class="button" >Soy operario</a>			
+			<a input href="ingreso_operario.php" class="button" >Soy operario</a><br><br>
+			<a input href="contacto.php" class="button" >¡Contactanos!</a>	<br><br>
+			<a input href="manual_usuario.php" class="button" >¡Manual de usuario!</a>			
 			</div>
 			</form>';
 			

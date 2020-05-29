@@ -43,7 +43,7 @@ if(isset($_POST['actualizar'])){ //De acuerdo con el formulario definido aquí s
 	$cupo=$_POST['cupo'];	// Se guarda en una variable cada entrada definida en el formulario
 	$id_parq=$_POST['id_parq'];
 	
-	if (!empty($seleccion) && !empty($cupo)){ // Se consulta que no exista ningún campo vacío
+	 // Se consulta que no exista ningún campo vacío
 		$sql = "UPDATE $seleccion set disp = '$cupo' where id_pq = $id_parq ";;
 		$resultado = pg_query($dbcon, $sql); // Se ejecuta la consulta en PostgreSQL con la conexión definida anteriormente
 
@@ -53,9 +53,7 @@ if(isset($_POST['actualizar'])){ //De acuerdo con el formulario definido aquí s
 		}else{
 			echo 'actualizacion Fallida, Usuario no disponible'; // Si el registro no es exitoso, retorna el mensaje en HTML
 		}	
-	}else{
-		echo 'actualizacion Fallido, Campos vacíos'; // Si existe algún campo vacío, retorna el mensaje en HTML
-	}
+	
 }
 
 ?>

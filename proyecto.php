@@ -26,6 +26,10 @@
     <!-- Files from current project -->
     <link rel="stylesheet" href="lib/leaflet.measurecontrol.css" />
     <script src="lib/leaflet.measurecontrol.js"></script>
+	
+	<!-- VISTA ATRIBUTOS -->
+	<link rel="stylesheet" href="lib/control_atributos/leaflet-control-condended-attribution.css" />
+	<script type="text/javascript" src="lib/control_atributos/leaflet-control-condended-attribution.js"></script>
 
 	
 	<style>
@@ -37,10 +41,13 @@
 		}
 		
 		.leaflet-control-draw-measure {
-			background-image: url(images/measure-control.png);
+			background-image: url(img/regla.png);
 		}
+
 		
-		
+		.emblem-wrap, .emblem-wrap img {
+		  height: 20px;
+		}
 		
     </style>
 	</head>
@@ -68,6 +75,7 @@
 			<h3>LOS PARQUEADEROS UBICADOS EN EL CIRCULO ROJO
 			ESTAN EN EL RANGO DE 1.5 KILOMETROS DESDE TU UBICACION</h3>
 			</div>
+			
 			<div id="registro">
 			<a href='cerrar_seccion.php'>Cerrar Sesion</a>
 			</div>
@@ -101,12 +109,6 @@
 	});
 	wmsLayer1.addTo(mymap);
 	
-	/*POPUP*/
-	/*var source3 = L.WMS.source("http://www.appmap.gis-cdn.net/geoserver/proyecto_sig/wms?", {
-   		opacity: 0.1,
-	});
-	source3.getLayer("parqueaderos_motos").addTo(mymap);*/
-
 	var wmsLayer2 = L.tileLayer.wms('http://www.appmap.gis-cdn.net/geoserver/proyecto_sig/wms?', {
 	layers: 'proyecto_sig:parqueaderos_carros',
 	attribution: 'parqueaderos_carros',
@@ -115,12 +117,6 @@
 	});
 	wmsLayer2.addTo(mymap);
 	
-	/*POPUP*/
-	/*var source1 = L.WMS.source("http://localhost:8080/geoserver/proyecto_sig/wms?", {
-   		opacity: 0.1,
-	});
-	source1.getLayer("parqueaderos_carros").addTo(mymap);*/
-	
 	var wmsLayer3 = L.tileLayer.wms('http://www.appmap.gis-cdn.net/geoserver/proyecto_sig/wms?', {
 	layers: 'proyecto_sig:parqueaderos_camion1',
 	attribution: 'parqueaderos_camion1',
@@ -128,12 +124,6 @@
 	transparent: true,
 	});
 	wmsLayer3.addTo(mymap);
-	
-	/*POPUP*/
-	/*var source2 = L.WMS.source("http://localhost:8080/geoserver/proyecto_sig/wms?", {
-		opacity: 0.1,
-	});
-	source2.getLayer("parqueaderos_camion1").addTo(mymap);*/
 	
 	var wmsLayer4 = L.tileLayer.wms('http://www.appmap.gis-cdn.net/geoserver/proyecto_sig/wms?', {
 	layers: 'proyecto_sig:parqueaderos_camion2',
@@ -191,9 +181,9 @@
 
 	
 	//BOTON PARA ABRIR TUTORIAL
-	L.easyButton('<img src="img/Un dedo Filled-50.png" width=25 >', function(btn, map)
+	L.easyButton('<img src="img/video.png" width=22 >', function(btn, map)
 	{
-		window.location="https://www.youtube.com/watch?v=1w7OgIMMRc4"
+		window.location="https://youtu.be/7YEgo0dkWJE"
 	}).addTo( mymap );	
 	
 

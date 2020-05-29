@@ -1,7 +1,7 @@
 <?php
 include 'conexion_bd.php'; 
 $dbcon = conexion(); 
-session_start(); 
+
 ?>
 	
     <meta charset="UTF-8">
@@ -18,14 +18,16 @@ session_start();
 </header>
 
 <?php
-
-echo '	<form method="post" action="ingreso_operario.php">
+session_start();
+echo '	<form method="post" action="actualizar_datos.php">
 			<div id="registro">
-			<label for="usuario">Ingrese su usuario - operario:</label>
+			<label for="usuario">👤 Ingrese su usuario - operario:</label>
 			<input type="text" placeholder="operario" name="loperario"><br><br>
-			<label for="contraseña">Ingrese su contraseña - operario:</label>
-			<input type="text" placeholder="contraseña" name="lcontraseña_o"><br><br>
+			<label for="contraseña">🔐 Ingrese su contraseña - operario:</label>
+			<input type="password" placeholder="contraseña" name="lcontraseña_o"><br><br>
 			<input name=login type="submit" value="Ingresar"><br><br>
+			<a input href="ingreso_usuarios.php" class="button" >Regresar</a><br><br>
+			<a input href="manual_operario.php" class="button" >¡Manual de operario!</a>
 			</div>
 			</form>';
 
